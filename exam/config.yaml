@@ -1,0 +1,8 @@
+# Seating arrangement of students in the exam hall
+student_data              : ./seating.csv 
+
+# Input question paper in PDF format present in the current directory
+input_question_paper      : ./exam.pdf 
+
+# Directory where the generated question papers will be stored
+output_question_paper_dir : /home/<set-path>/output-qp 
