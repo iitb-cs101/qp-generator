@@ -50,5 +50,5 @@ All configuration is handled via: ```exam/config.yaml```
 * Step 2: Run the Make command: ```make qp```
 
 ## Requirements
-Python 3.8+
-See requirements.txt
+* Python 3.8+
+* See requirements.txt
