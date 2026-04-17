@@ -1,0 +1,9 @@
+pandas
+PyPDF2>=3.0.0
+reportlab
+qrcode[pil]
+pymupdf
+pillow
+joblib
+tqdm
+pyyaml

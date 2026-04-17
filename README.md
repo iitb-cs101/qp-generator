@@ -8,6 +8,7 @@ Utility to generate customized question papers (PDF) files for each student usin
 
 ```
 .
+├── requirements.txt
 ├── bulk-printing.ps1
 ├── generate-qp.py
 └── exam/
@@ -47,3 +48,7 @@ All configuration is handled via: ```exam/config.yaml```
 ## How to Run
 * Step 1: Navigate to the exam folder: ```cd exam```
 * Step 2: Run the Make command: ```make qp```
+
+## Requirements
+Python 3.8+
+See requirements.txt
