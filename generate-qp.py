@@ -120,22 +120,32 @@ def fill_student_details(pdf_path, fields, details):
     doc = fitz.open(pdf_path)
     page = doc.load_page(0)
 
-    for i in range(len(fields)):
-        text_instances = page.search_for(fields[i])
-        if len(text_instances) == 0:
-            print(f"{fields[i]} is not found in the pdf!")
-        else:
-            inst = text_instances[0] 
-            rect = fitz.Rect(inst.x1-140, inst.y0+5, inst.x1+ len(details[i]) + 200, inst.y1 + 20) 
-            rc = page.insert_textbox(rect, details[i], fontsize = 12,
-                                     fontname = "Times-Roman",     
-                                     fontfile = None,              
-                                     align = 1)
+    for field, detail in zip(fields, details):
+        insts = page.search_for(field)
+        if not insts:
+            print(f"{field} not found")
+            continue
+
+        inst = insts[0]
+
+        rect = fitz.Rect(
+            inst.x1 + 5,      # start just after the label
+            inst.y0 - 6,      # move text upward
+            inst.x1 + 230,    # enough room for long names
+            inst.y1 + 6
+        )
+
+        page.insert_textbox(
+            rect,
+            detail,
+            fontsize=12,
+            fontname="Times-Roman",
+            align=0           # left align
+        )
 
     doc.save(pdf_path, incremental=True, encryption=fitz.PDF_ENCRYPT_KEEP)
     doc.close()
 
-     
 #------------------------------------------------------
 #  Process each student 
 #------------------------------------------------------
