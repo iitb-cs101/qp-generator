@@ -53,7 +53,7 @@ def generate_qr_code(data):
     return img
 
 # Function to add QR code to each page of a PDF
-def add_qr_code_to_pdf(pdf, qr_data, room, seat):
+def add_qr_code_to_pdf(pdf, qr_data, room, seat, full_name):
     # ---------------------------------------------------
     # Inset a page if total number of pages is odd number
     # ---------------------------------------------------
@@ -77,7 +77,16 @@ def add_qr_code_to_pdf(pdf, qr_data, room, seat):
         can.setFont(psfontname ='Times-Roman', size = 20)
 
         if page_num != 0:
-            can.drawString(60,page_height - 40 , seat+'-'+room+'-'+qr_data)
+            # Line 1: Seat and Room
+            can.drawString(60, page_height - 35, f"{seat} - {room}")
+
+            # Line 2: Roll Number
+            can.drawString(60, page_height - 58, qr_data)
+
+            # Line 3: Name
+            can.setFont("Times-Roman", 16)
+            can.drawString(60, page_height - 76, full_name)
+
 
         # hide pre-existing page numbers
         # can.setFillColorRGB(255, 255, 255)
@@ -183,7 +192,7 @@ def runner( pair ):
     # -----------------------------------------------
     # Add Qr code and Reg No string each page
     # -----------------------------------------------
-    output_pdf = add_qr_code_to_pdf(output_pdf, reg_no, room, seat)
+    output_pdf = add_qr_code_to_pdf(output_pdf, reg_no, room, seat, full_name)
     output_path = os.path.join(f"{student_dir}/qp", f'{room}-{seat}-{reg_no}.pdf')
     with open(output_path, 'wb') as output_file:
         output_pdf.write(output_file)
