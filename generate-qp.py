@@ -170,7 +170,7 @@ def runner( pair ):
     room        = row["Room No."]
 
     # truncate full name
-    if len(full_name) > 20: full_name = full_name[0:20]
+    if len(full_name) > 40: full_name = full_name[0:40]
 
     output_pdf = PdfWriter()
     
