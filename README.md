@@ -11,6 +11,7 @@ Utility to generate customized question papers (PDF) files for each student usin
 ├── requirements.txt
 ├── bulk-printing.ps1
 ├── generate-qp.py
+├── read-scanned-answerbooks.py
 └── exam/
     ├── config.yaml
     ├── Makefile
@@ -41,13 +42,20 @@ Roll No.,Name,Room No.,Seat No.
 
 All configuration is handled via: ```exam/config.yaml```
 
+### Generating Question Paper
 * `student_data`: The filename of the CSV that contains the seating arrangement of the students
 * `input_question_paper`: The input PDF (sample/master question paper)
 * `output_question_paper_dir`: The output directory for the generated PDFs
 
+### Collating Answer Books from Raw Scans
+* `raw_scan_folder`: Directory where the RAW scanned answer books are stored
+* `scanned_output_dir`: Directory where the processed scanned answer books will be stored
+* `expected_pages`: Number of pages in the question paper (for validation purposes)
+
 ## How to Run
-* Step 1: Navigate to the exam folder: ```cd exam```
-* Step 2: Run the Make command: ```make qp```
+* Navigate to the exam folder: ```cd exam```
+* To generate question paper: ```make qp```
+* To collate RAW scans per student: ```make read-scanned```
 
 ## Requirements
 * Python 3.8+

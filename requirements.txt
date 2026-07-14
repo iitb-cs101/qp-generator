@@ -7,3 +7,6 @@ pillow
 joblib
 tqdm
 pyyaml
+pyzbar
+qrtools
+pytesseract

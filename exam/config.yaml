@@ -1,8 +1,21 @@
-# Seating arrangement of students in the exam hall
+# 1. Configuration for the exam question paper generator
+
+## 1.1 Seating arrangement of students in the exam hall
 student_data              : ./seating.csv 
 
-# Input question paper in PDF format present in the current directory
+## 1.2 Input question paper in PDF format present in the current directory
 input_question_paper      : ./exam.pdf 
 
-# Directory where the generated question papers will be stored
+## 1.3 Directory where the generated question papers will be stored
 output_question_paper_dir : /home/<set-path>/output-qp 
+
+# 2. Configuration for the scanned answer books reader
+
+## 2.1  Directory where the RAW scanned answer books are stored
+raw_scan_folder           : /home/<set-path>/RAW-scans
+
+## 2.2 Directory where the processed scanned answer books will be stored
+scanned_output_dir        : /home/<set-path>/final-scans
+
+## 2.3 Number of pages in the question paper (for validation purposes)
+expected_pages            : 20
