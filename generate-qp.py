@@ -177,6 +177,7 @@ def runner( pair ):
     full_name   = row['Name']
     seat        = row["Seat No."]
     room        = row["Room No."]
+    block       = row.get("Block", "")
 
     # truncate full name
     if len(full_name) > 40: full_name = full_name[0:40]
@@ -190,7 +191,7 @@ def runner( pair ):
     # Add Qr code and Reg No string each page
     # -----------------------------------------------
     output_pdf = add_qr_code_to_pdf(qp_pdf, reg_no, room, seat, full_name)
-    output_path = os.path.join(f"{student_dir}/qp", f'{room}-{seat}-{reg_no}.pdf')
+    output_path = os.path.join(f"{student_dir}/qp", f'{room}-{block}-{seat}-{reg_no}.pdf')
     with open(output_path, 'wb') as output_file:
         output_pdf.write(output_file)
 
