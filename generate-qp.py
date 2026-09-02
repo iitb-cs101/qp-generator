@@ -181,18 +181,15 @@ def runner( pair ):
     # truncate full name
     if len(full_name) > 40: full_name = full_name[0:40]
 
-    output_pdf = PdfWriter()
-    
     # --------------------------------------
     # Insert question paper in the student file
     # --------------------------------------
     qp_pdf = PdfReader(open(qp_path, 'rb'))
-    output_pdf.append_pages_from_reader(qp_pdf)
 
     # -----------------------------------------------
     # Add Qr code and Reg No string each page
     # -----------------------------------------------
-    output_pdf = add_qr_code_to_pdf(output_pdf, reg_no, room, seat, full_name)
+    output_pdf = add_qr_code_to_pdf(qp_pdf, reg_no, room, seat, full_name)
     output_path = os.path.join(f"{student_dir}/qp", f'{room}-{seat}-{reg_no}.pdf')
     with open(output_path, 'wb') as output_file:
         output_pdf.write(output_file)
