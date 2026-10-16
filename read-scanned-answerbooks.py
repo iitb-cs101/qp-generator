@@ -100,7 +100,7 @@ def read_qr_code(page,input_file="",page_num=0):
     # Saving failure cases for inspection.
     # ----------------------------------------
     if not decoded_objects:
-        print(f'Failed to scan!')
+        print(f"Failed to scan! [{input_file}, page {page_num + 1}]")
         top_right.save( f"{output_directory}/failed_page_{input_file}_{page_num}_grayscale.png" )
 
     page.set_rotation(0)
@@ -121,6 +121,7 @@ unidentified_documents = []
 repeated_lists = {}
 
 for pdf_file in pdf_files:
+    print(f"\nExamining file: {pdf_file}")
     scanned_pdf_path = os.path.join(scanned_pdf_folder_path, pdf_file)
     if os.path.exists(scanned_pdf_path):
         pdf_document = fitz.open(scanned_pdf_path)
@@ -130,7 +131,19 @@ for pdf_file in pdf_files:
             decoded_objects = read_qr_code(page,pdf_file,page_num)
             if decoded_objects:
                 qr_data = decoded_objects[0].data.decode('utf-8')
-                roll_no, page_n = qr_data.rsplit('_')
+                # roll_no, page_n = qr_data.rsplit('_')
+
+                parts = qr_data.rsplit('_', 1)
+
+                if len(parts) != 2:
+                    print(f"Invalid QR data: {qr_data!r} in {pdf_file}, page {page_num}")
+                    unidentified_documents.append((pdf_document, page_num))
+                    continue
+
+                roll_no, page_n = parts
+
+
+                ##################################
                 if len(reg_nos) > 0 and (not roll_no in reg_nos):
                     print(f'Unexpected {roll_no} is found!')
                 if not roll_no in sorted_documents:
@@ -139,7 +152,10 @@ for pdf_file in pdf_files:
                     if not f"{roll_no}_{int(page_n)}" in repeated_lists:
                         repeated_lists[f"{roll_no}_{int(page_n)}"] = [sorted_documents[roll_no][int(page_n)]]
                     repeated_lists[f"{roll_no}_{int(page_n)}"].append((pdf_document,page_num))
-                    print(f"{roll_no}_{int(page_n)} found again")
+                    print(
+                        f"{roll_no}_{int(page_n)} found again "
+                        f"[{pdf_file}, page {page_num + 1}]"
+                    )
                 else:
                     sorted_documents[roll_no][int(page_n)] = (pdf_document,page_num)
             else:
