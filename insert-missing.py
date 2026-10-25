@@ -47,27 +47,27 @@ if not os.path.isfile(CSV_FILE):
 with open(CSV_FILE, newline="", encoding="utf-8-sig") as f:
     reader = csv.DictReader(f, skipinitialspace=True)
 
-    required_columns = {"filename-a", "filename-b", "X", "Y"}
+    required_columns = {"target-pdf", "source-pdf", "source-pdf-page-number", "target-pdf-insert-after-page"}
 
     if not reader.fieldnames or not required_columns.issubset(
         {name.strip() for name in reader.fieldnames}
     ):
         raise ValueError(
             "insertions.csv must contain these columns: "
-            "filename-a, filename-b, X, Y"
+            "target-pdf, source-pdf, source-pdf-page-number, target-pdf-insert-after-page"
         )
 
     for row in reader:
         try:
             file_a = os.path.join(
-                PDF_DIR, row["filename-a"].strip()
+                PDF_DIR, row["target-pdf"].strip()
             )
             file_b = os.path.join(
-                PDF_DIR, row["filename-b"].strip()
+                PDF_DIR, row["source-pdf"].strip()
             )
 
-            X = int(row["X"])
-            Y = int(row["Y"])
+            X = int(row["source-pdf-page-number"])
+            Y = int(row["target-pdf-insert-after-page"])
 
             output_file = (
                 os.path.splitext(file_a)[0] + "-mod.pdf"
@@ -75,12 +75,12 @@ with open(CSV_FILE, newline="", encoding="utf-8-sig") as f:
 
             if not os.path.isfile(file_a):
                 raise FileNotFoundError(
-                    f"PDF A not found: {file_a}"
+                    f"Target PDF not found: {file_a}"
                 )
 
             if not os.path.isfile(file_b):
                 raise FileNotFoundError(
-                    f"PDF B not found: {file_b}"
+                    f"Source PDF not found: {file_b}"
                 )
 
             with fitz.open(file_a) as a, fitz.open(file_b) as b:
@@ -92,7 +92,7 @@ with open(CSV_FILE, newline="", encoding="utf-8-sig") as f:
                         f"PDF has {len(b)} pages"
                     )
 
-                # Y is a zero-based insertion position in PDF A.
+                # Y is the one-based page number in target-pdf after which the source page is inserted. Y = 0 means insert at the beginning.
                 if not 0 <= Y <= len(a):
                     raise ValueError(
                         f"Invalid insertion position Y={Y}; "
@@ -115,6 +115,6 @@ with open(CSV_FILE, newline="", encoding="utf-8-sig") as f:
             print(f"SUCCESS: {output_file}")
 
         except Exception as e:
-            filename = row.get("filename-a", "<unknown>").strip()
+            filename = row.get("target-pdf", "<unknown>").strip()
             print(f"FAILED: {filename}: {e}")
 
