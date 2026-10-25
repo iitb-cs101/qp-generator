@@ -7,4 +7,7 @@ qp:
 read-scanned:
 	python3 ../read-scanned-answerbooks.py	
 
-.PHONY: qp read-scanned
+insert-missing:
+	python3 ../insert-missing.py
+
+.PHONY: qp read-scanned insert-missing
