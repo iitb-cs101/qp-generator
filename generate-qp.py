@@ -100,9 +100,9 @@ def add_qr_code_to_pdf(pdf, qr_data, room, seat, full_name):
         #     can.drawString(page_width/2 - 4, page_height - 40 ,str(page_num + 1))
 
         # Draw box for the scores
-        can.rect(  page_width - 250, page_height - 100, 80, 70)
-        can.setFont(psfontname ='Times-Roman', size = 11)
-        can.drawString( page_width - 245, page_height - 25 , 'Marks obtained')
+        # can.rect(  page_width - 250, page_height - 100, 80, 70)
+        # can.setFont(psfontname ='Times-Roman', size = 11)
+        # can.drawString( page_width - 245, page_height - 25 , 'Marks obtained')
 
         # add qr code
         qr_img_temp = io.BytesIO()
